@@ -4,6 +4,8 @@
 
 Macro for generating Phoenix components for Bootstrap icons. Only include the icons you need to avoid slow compilation and bloated modules.
 
+Icons are from the [Bootstrap Icons](https://github.com/twbs/icons) project. Version numbers in this project track those from Bootstrap Icons.
+
 ## Installation
 
 The package can be installed by adding `bootstrap_icon_components` to your list of dependencies in `mix.exs`:
@@ -11,7 +13,7 @@ The package can be installed by adding `bootstrap_icon_components` to your list 
 ```elixir
 def deps do
   [
-    {:bootstrap_icon_components, "~> 0.1"}
+    {:bootstrap_icon_components, "~> 1.9.1"}
   ]
 end
 ```
