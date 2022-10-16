@@ -38,7 +38,9 @@ defmodule BootstrapIconComponents do
 
     Enum.map(opts[:include], fn name when is_binary(name) ->
       svg =
-        case File.read("./priv/icons/#{String.replace(name, "_", "-")}.svg") do
+        Path.expand("../../priv/icons/#{String.replace(name, "_", "-")}.svg", __ENV__.file)
+        |> File.read()
+        |> case do
           {:ok, svg} -> svg
           {:error, :enoent} -> raise "no icon named #{inspect(name)} available"
         end
