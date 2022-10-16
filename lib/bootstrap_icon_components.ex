@@ -1,18 +1,33 @@
 defmodule BootstrapIconComponents do
-  @moduledoc """
-  Documentation for `BootstrapIconComponents`.
-  """
+  @svg_regex ~R{\A(<svg.+)class="[^"]+"([^>]+)>(.+)\z}ms
 
-  @doc """
-  Hello world.
+  defmacro __using__(opts) do
+    opts = Keyword.validate!(opts, [:include])
 
-  ## Examples
+    Keyword.fetch!(opts, :include)
+    |> Enum.map(fn name when is_binary(name) ->
+      svg =
+        case File.read("./priv/icons/#{String.replace(name, "_", "-")}.svg") do
+          {:ok, svg} -> svg
+          {:error, :enoent} -> raise "no icon named #{inspect(name)} available"
+        end
 
-      iex> BootstrapIconComponents.hello()
-      :world
+      [_, svg_start, svg_end, rest] = Regex.run(@svg_regex, svg)
 
-  """
-  def hello do
-    :world
+      quote do
+        def unquote(String.to_atom("icon_" <> name))(var!(assigns)) do
+          var!(assigns) =
+            Phoenix.Component.assign(var!(assigns), %{
+              attrs: Phoenix.Component.assigns_to_attributes(var!(assigns))
+            })
+
+          unquote(
+            EEx.compile_string(svg_start <> svg_end <> " {@attrs}>" <> rest,
+              engine: Phoenix.LiveView.HTMLEngine
+            )
+          )
+        end
+      end
+    end)
   end
 end
