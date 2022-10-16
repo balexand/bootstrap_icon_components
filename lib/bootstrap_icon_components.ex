@@ -13,6 +13,19 @@ defmodule BootstrapIconComponents do
   ]
 
   @moduledoc """
+  Creates function components for Bootstrap icons.
+
+  ## Usage
+
+      defmodule MyApp.Icons do
+        use Phoenix.Component
+        use BootstrapIconComponents, include: ["1_circle", "cpu"]
+      end
+
+  Then call the components in your HEEX templates:
+
+      <.MyApp.Icons.bs_1_circle class="w-4" />
+
   ## Options
 
   #{NimbleOptions.docs(@opts_schema)}

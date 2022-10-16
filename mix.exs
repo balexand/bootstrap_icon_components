@@ -17,6 +17,7 @@ defmodule BootstrapIconComponents.MixProject do
       ],
       docs: [
         extras: ["README.md"],
+        main: "BootstrapIconComponents",
         source_ref: "v#{@version}",
         source_url: "https://github.com/balexand/bootstrap_icon_components"
       ]
