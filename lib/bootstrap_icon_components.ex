@@ -1,18 +1,64 @@
 defmodule BootstrapIconComponents do
+  @opts_schema [
+    include: [
+      type: {:list, :string},
+      required: true,
+      doc: "List of icon names to include."
+    ],
+    prefix: [
+      type: :string,
+      default: "bs",
+      doc: "Prefix for icon function names."
+    ]
+  ]
+
   @moduledoc """
-  Documentation for `BootstrapIconComponents`.
+  Creates function components for Bootstrap icons.
+
+  ## Usage
+
+      defmodule MyApp.Icons do
+        use Phoenix.Component
+        use BootstrapIconComponents, include: ["1_circle", "cpu"]
+      end
+
+  Then call the components in your HEEX templates:
+
+      <.MyApp.Icons.bs_1_circle class="w-4" />
+
+  ## Options
+
+  #{NimbleOptions.docs(@opts_schema)}
   """
 
-  @doc """
-  Hello world.
+  @svg_regex ~R{\A(<svg.+)class="[^"]+"([^>]+)>(.+)\z}ms
 
-  ## Examples
+  defmacro __using__(opts) do
+    opts = NimbleOptions.validate!(opts, @opts_schema)
 
-      iex> BootstrapIconComponents.hello()
-      :world
+    Enum.map(opts[:include], fn name when is_binary(name) ->
+      svg =
+        case File.read("./priv/icons/#{String.replace(name, "_", "-")}.svg") do
+          {:ok, svg} -> svg
+          {:error, :enoent} -> raise "no icon named #{inspect(name)} available"
+        end
 
-  """
-  def hello do
-    :world
+      [_, svg_start, svg_end, rest] = Regex.run(@svg_regex, svg)
+
+      quote do
+        def unquote(String.to_atom(opts[:prefix] <> "_" <> name))(var!(assigns)) do
+          var!(assigns) =
+            Phoenix.Component.assign(var!(assigns), %{
+              attrs: Phoenix.Component.assigns_to_attributes(var!(assigns))
+            })
+
+          unquote(
+            EEx.compile_string(svg_start <> svg_end <> " {@attrs}>" <> rest,
+              engine: Phoenix.LiveView.HTMLEngine
+            )
+          )
+        end
+      end
+    end)
   end
 end
