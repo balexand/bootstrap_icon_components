@@ -2,7 +2,7 @@
 
 [![Package](https://img.shields.io/hexpm/v/bootstrap_icon_components.svg)](https://hex.pm/packages/bootstrap_icon_components) [![Documentation](http://img.shields.io/badge/hex.pm-docs-green.svg?style=flat)](https://hexdocs.pm/bootstrap_icon_components) ![CI](https://github.com/balexand/bootstrap_icon_components/actions/workflows/elixir.yml/badge.svg)
 
-**TODO: Add description**
+Macro for generating Phoenix components for Bootstrap icons. Only include the icons you need to avoid slow compilation and bloated modules.
 
 ## Installation
 
