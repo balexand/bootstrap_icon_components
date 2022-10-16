@@ -1,11 +1,29 @@
 defmodule BootstrapIconComponents do
+  @opts_schema [
+    include: [
+      type: {:list, :string},
+      required: true,
+      doc: "List of icon names to include."
+    ],
+    prefix: [
+      type: :string,
+      default: "bs",
+      doc: "Prefix for icon function names."
+    ]
+  ]
+
+  @moduledoc """
+  ## Options
+
+  #{NimbleOptions.docs(@opts_schema)}
+  """
+
   @svg_regex ~R{\A(<svg.+)class="[^"]+"([^>]+)>(.+)\z}ms
 
   defmacro __using__(opts) do
-    opts = Keyword.validate!(opts, [:include])
+    opts = NimbleOptions.validate!(opts, @opts_schema)
 
-    Keyword.fetch!(opts, :include)
-    |> Enum.map(fn name when is_binary(name) ->
+    Enum.map(opts[:include], fn name when is_binary(name) ->
       svg =
         case File.read("./priv/icons/#{String.replace(name, "_", "-")}.svg") do
           {:ok, svg} -> svg
@@ -15,7 +33,7 @@ defmodule BootstrapIconComponents do
       [_, svg_start, svg_end, rest] = Regex.run(@svg_regex, svg)
 
       quote do
-        def unquote(String.to_atom("icon_" <> name))(var!(assigns)) do
+        def unquote(String.to_atom(opts[:prefix] <> "_" <> name))(var!(assigns)) do
           var!(assigns) =
             Phoenix.Component.assign(var!(assigns), %{
               attrs: Phoenix.Component.assigns_to_attributes(var!(assigns))

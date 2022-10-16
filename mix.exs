@@ -34,6 +34,7 @@ defmodule BootstrapIconComponents.MixProject do
   defp deps do
     [
       {:jason, "~> 1.4"},
+      {:nimble_options, "~> 0.4"},
       {:phoenix_live_view, "~> 0.18"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
