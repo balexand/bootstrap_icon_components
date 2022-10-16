@@ -6,17 +6,29 @@
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `bootstrap_icon_components` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `bootstrap_icon_components` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:bootstrap_icon_components, "~> 0.1.0"}
+    {:bootstrap_icon_components, "~> 0.1"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/bootstrap_icon_components>.
+## Usage
+
+```elixir
+defmodule MyApp.Icons do
+  use Phoenix.Component
+  use BootstrapIconComponents, include: ["1_circle", "cpu"]
+end
+```
+
+Then call the components in your HEEX templates:
+
+```html
+<.MyApp.Icons.bs_1_circle class="w-4" />
+```
+
+See [the docs](https://hexdocs.pm/bootstrap_icon_components) for details.
