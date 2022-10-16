@@ -34,6 +34,13 @@ defmodule BootstrapIconComponents do
   @svg_regex ~R{\A(<svg.+)class="[^"]+"([^>]+)>(.+)\z}ms
 
   defmacro __using__(opts) do
+    {opts, _binding} =
+      Code.eval_quoted(
+        quote do
+          unquote(opts)
+        end
+      )
+
     opts = NimbleOptions.validate!(opts, @opts_schema)
 
     Enum.map(opts[:include], fn name when is_binary(name) ->
