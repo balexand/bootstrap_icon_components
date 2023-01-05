@@ -13,7 +13,7 @@ The package can be installed by adding `bootstrap_icon_components` to your list 
 ```elixir
 def deps do
   [
-    {:bootstrap_icon_components, "~> 1.9.1"}
+    {:bootstrap_icon_components, "~> 1.10"}
   ]
 end
 ```
