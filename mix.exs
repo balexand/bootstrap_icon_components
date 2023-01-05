@@ -1,7 +1,7 @@
 defmodule BootstrapIconComponents.MixProject do
   use Mix.Project
 
-  @version "1.9.1"
+  @version "1.10.1"
 
   def project do
     [
