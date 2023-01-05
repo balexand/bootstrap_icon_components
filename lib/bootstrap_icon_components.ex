@@ -53,6 +53,7 @@ defmodule BootstrapIconComponents do
         end
 
       [_, svg_start, svg_end, rest] = Regex.run(@svg_regex, svg)
+      expr = svg_start <> svg_end <> " {@attrs}>" <> rest
 
       quote do
         def unquote(String.to_atom(opts[:prefix] <> "_" <> name))(var!(assigns)) do
@@ -62,8 +63,10 @@ defmodule BootstrapIconComponents do
             })
 
           unquote(
-            EEx.compile_string(svg_start <> svg_end <> " {@attrs}>" <> rest,
-              engine: Phoenix.LiveView.HTMLEngine
+            EEx.compile_string(expr,
+              caller: __CALLER__,
+              engine: Phoenix.LiveView.HTMLEngine,
+              source: expr
             )
           )
         end
