@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.2] - 2023-01-05
 
+### Changed
+
+- Update icons to 1.10.2 (https://github.com/balexand/bootstrap_icon_components/pull/9)
 
 ## [1.10.1] - 2023-01-05
 
