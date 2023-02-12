@@ -6,8 +6,7 @@ defmodule BootstrapIconComponents.MixProject do
   def project do
     [
       app: :bootstrap_icon_components,
-      description:
-        "Macro for generating Phoenix components for Bootstrap icons. Only include the icons you need to avoid slow compilation and bloated modules.",
+      description: "Macro for generating Phoenix components for Bootstrap icons.",
       version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
